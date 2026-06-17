@@ -4,6 +4,7 @@ from utils.parser import extract_text_from_pdf
 from utils.skill_extractor import extract_skills
 from utils.role_recommender import recommend_roles
 from utils.skill_extractor import extract_skills
+from utils.ats_matcher import calculate_ats_score
 
 st.set_page_config(
     page_title="Smart Career Assistant",
@@ -58,6 +59,38 @@ if uploaded_file is not None:
             st.write(
                 f"**{role}** → Match Score: {score:.0f}%"
             )
+
+    top_role = recommendations[0][0]
+
+    st.subheader("📊 ATS Match Score")
+
+    role_required_skills = [
+        "Python",
+        "Machine Learning",
+        "SQL",
+        "Deep Learning",
+        "NLP"
+    ]
+
+    ats_result = calculate_ats_score(
+        skills,
+        role_required_skills
+    )
+
+    st.metric(
+        "ATS Score",
+        f"{ats_result['score']}%"
+    )
+
+    st.write("✅ Matched Skills")
+
+    for skill in ats_result["matched_skills"]:
+        st.write(f"• {skill}")
+
+    st.write("❌ Missing Skills")
+
+    for skill in ats_result["missing_skills"]:
+        st.write(f"• {skill}")
 
     else:
         st.warning(
