@@ -3,16 +3,30 @@ def generate_suggestions(missing_skills):
     suggestions = []
 
     for skill in missing_skills:
-        suggestions.append(
-            f"Learn {skill.title()}"
-        )
 
-    suggestions.append(
-        "Build at least 2 projects in your target domain"
-    )
+        if skill == "sql":
+            suggestions.append(
+                "Learn SQL and practice database queries."
+            )
 
-    suggestions.append(
-        "Complete a relevant certification"
-    )
+        elif skill == "machine learning":
+            suggestions.append(
+                "Build ML projects using Scikit-Learn."
+            )
+
+        elif skill == "deep learning":
+            suggestions.append(
+                "Learn TensorFlow or PyTorch."
+            )
+
+        elif skill == "nlp":
+            suggestions.append(
+                "Work on NLP projects using spaCy."
+            )
+
+        else:
+            suggestions.append(
+                f"Improve your knowledge of {skill}."
+            )
 
     return suggestions

@@ -3,8 +3,9 @@ import streamlit as st
 from utils.parser import extract_text_from_pdf
 from utils.skill_extractor import extract_skills
 from utils.role_recommender import recommend_roles
-from utils.skill_extractor import extract_skills
 from utils.ats_matcher import calculate_ats_score
+from utils.suggestion_generator import generate_suggestions
+from utils.interview_generator import generate_interview_questions
 
 st.set_page_config(
     page_title="Smart Career Assistant",
@@ -92,7 +93,25 @@ if uploaded_file is not None:
     for skill in ats_result["missing_skills"]:
         st.write(f"• {skill}")
 
-    else:
-        st.warning(
-            "No matching roles found."
+    suggestions = generate_suggestions(
+            ats_result["missing_skills"]
+            )
+
+    st.subheader("💡 AI Suggestions")
+
+    for suggestion in suggestions:
+        st.write(f"✅ {suggestion}")
+
+    questions = generate_interview_questions(
+        skills
         )
+
+    st.subheader("🎤 Interview Questions")
+
+    for question in questions:
+        st.write(f"❓ {question}")
+
+    # else:
+    #     st.warning(
+    #         "No matching roles found."
+    #     )
