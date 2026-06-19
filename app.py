@@ -6,6 +6,7 @@ from utils.role_recommender import recommend_roles
 from utils.ats_matcher import calculate_ats_score
 from utils.ai_suggestions import generate_ai_suggestions
 from utils.ai_interview_generator import generate_ai_interview_questions
+from utils.ai_career_roadmap import generate_ai_career_roadmap
 
 st.set_page_config(
     page_title="Smart Career Assistant",
@@ -61,11 +62,11 @@ if uploaded_file is not None:
                 f"**{role}** → Match Score: {score:.0f}%"
             )
 
-    if recommendations:
         top_role = recommendations[0][0]
     else:
-        st.warning("No matching roles found.")
-        top_role = "Data Scientist"
+        st.warning(
+            "No matching roles found."
+        )
 
     st.subheader("📊 ATS Match Score")
 
@@ -104,12 +105,13 @@ if uploaded_file is not None:
         top_role,
         ats_result["missing_skills"]
         )
-
-    st.write(ai_suggestions)
     
-    # questions = generate_interview_questions(
-    #     skills
-    #     )
+    print("AI Suggestions:")
+    print(ai_suggestions)
+
+    # st.subheader("💡 AI Suggestions")
+
+    st.text(ai_suggestions)
 
     st.subheader("🎤 Interview Questions")
 
@@ -120,7 +122,12 @@ if uploaded_file is not None:
 
     st.write(interview_questions)
 
-    # else:
-    #     st.warning(
-    #         "No matching roles found."
-    #     )
+    st.subheader("🛣 Career Roadmap")
+
+    career_roadmap = generate_ai_career_roadmap(
+        skills,
+        top_role,
+        ats_result["missing_skills"]
+        )
+
+    st.write(career_roadmap)
