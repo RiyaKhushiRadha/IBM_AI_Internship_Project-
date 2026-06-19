@@ -1,9 +1,10 @@
 import google.generativeai as genai
+import streamlit as st
 
-# Paste your Gemini API key here
 genai.configure(
-    api_key="API_KEY_HERE"
+    api_key=st.secrets["GEMINI_API_KEY"]
 )
+
 
 model = genai.GenerativeModel(
     "gemini-2.5-flash"
@@ -27,9 +28,3 @@ def get_gemini_response(prompt):
         print(e)
 
         return "Unable to generate response right now."
-
-    # response = model.generate_content(
-    #     prompt
-    # )
-
-    # return response.text
